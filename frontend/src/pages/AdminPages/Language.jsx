@@ -39,7 +39,7 @@ const Language = () => {
  
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/language/languages")
+      .get("http://localhost:5000/api/language/alllanguages")
       .then(({ data }) => {
         setLanguages(data);
       });

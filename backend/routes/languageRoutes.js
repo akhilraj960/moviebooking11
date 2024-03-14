@@ -44,9 +44,15 @@ router.get("/languages", (req, res) => {
         status: "Active",
       },
     },
-  ]).then(data=>{
-    res.send(data)
-  })
+  ]).then((data) => {
+    res.send(data);
+  });
+});
+
+router.get("/alllanguages", (req, res) => {
+  Language.find().then((data) => {
+    res.send(data);
+  });
 });
 
 router.put("/update/:id", (req, res) => {
