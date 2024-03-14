@@ -11,12 +11,12 @@ const AuthRouter = require("./routes/authRoutes");
 const LanguageRouter = require("./routes/languageRoutes");
 const MovieRouter = require("./routes/movieRoutes");
 const AdminRouter = require("./routes/adminRoutes");
-
+ 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
-
+  
 app.use("/api/auth", AuthRouter);
 app.use("/api/language", LanguageRouter);
 app.use("/api/movie", MovieRouter);

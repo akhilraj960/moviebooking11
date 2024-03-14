@@ -38,9 +38,15 @@ router.put("/status/inactivate/:id", (req, res) => {
 });
 
 router.get("/languages", (req, res) => {
-  Language.find().then((data) => {
-    return res.send(data);
-  });
+  Language.aggregate([
+    {
+      $match: {
+        status: "Active",
+      },
+    },
+  ]).then(data=>{
+    res.send(data)
+  })
 });
 
 router.put("/update/:id", (req, res) => {

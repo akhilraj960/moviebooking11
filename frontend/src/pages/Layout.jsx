@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,13 +15,29 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Outlet } from "react-router-dom";
 import { Link } from "@mui/material";
+
 const drawerWidth = 240;
 
 const Layout = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token != null) {
+      setIsLoggedIn(true);
+    }
+  }, [token]);
+
+  console.log(token);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
   };
 
   const drawer = (
@@ -52,13 +68,19 @@ const Layout = () => {
             </ListItemText>
           </ListItemButton>{" "}
         </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText color="black">
-              <Link href="/login">Login</Link>
-            </ListItemText>
+        {isLoggedIn ? (
+          <ListItemButton onClick={handleLogout}>
+            <ListItemText primary="Logout" />
           </ListItemButton>
-        </ListItem>
+        ) : (
+          <ListItemButton
+            component={Link}
+            to="/login"
+            onClick={handleDrawerToggle}
+          >
+            <ListItemText primary="Login" />
+          </ListItemButton>
+        )}
       </List>
     </Box>
   );
@@ -101,11 +123,17 @@ const Layout = () => {
                   Contact us
                 </Link>
               </Button>
-              <Button sx={{ color: "#fff" }}>
-                <Link href="/login" sx={{ color: "#fff" }}>
-                  Login
-                </Link>
-              </Button>
+              {isLoggedIn ? (
+                <Button onClick={handleLogout} sx={{ color: "#fff" }}>
+                  Logout
+                </Button>
+              ) : (
+                <Button sx={{ color: "#fff" }}>
+                  <Link href="/login" sx={{ color: "#fff" }}>
+                    Login
+                  </Link>
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </AppBar>

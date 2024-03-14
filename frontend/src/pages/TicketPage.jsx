@@ -37,10 +37,8 @@ const TicketPage = () => {
       })
       .then((response) => {
         console.log(response.data);
-        if (response.data.success) {
-          alert(response.data.message);
-          navigate(`/`);
-        }
+        alert(response.data.message);
+        navigate(`/`);
       })
       .catch((error) => {
         console.error("Error submitting tickets:", error);

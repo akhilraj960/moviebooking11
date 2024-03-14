@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { default: mongoose } = require("mongoose");
 const Seat = require("../models/Seat");
 const User = require("../models/User");
+const Schedule = require("../models/Schedule");
 
 router.get("/users", (req, res) => {
   User.find().then((users) => {
@@ -20,5 +21,15 @@ router.get("/tickets/:mid", (req, res) => {
     res.send(data);
   });
 });
+
+router.get('/bookedtickets',(req,res)=>{
+  Schedule.aggregate([
+    {
+      $match:{
+        
+      }
+    }
+  ])
+})
 
 module.exports = router;

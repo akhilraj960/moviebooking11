@@ -10,7 +10,7 @@ import {
 import Image from "../assets/imgz.jpg";
 import styled from "@emotion/styled";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Background = styled("div")({
   width: "100%",
@@ -26,6 +26,16 @@ const Background = styled("div")({
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token != null) {
+      setIsLoggedIn(true);
+    }
+  }, [token]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -36,7 +46,13 @@ const Home = () => {
       });
   }, []);
 
-  const handleBookTicket = (id) => {};
+  const handleBookTicket = (id) => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      navigate(`/bookticket/${id}`);
+    }
+  };
 
   return (
     <>
@@ -91,7 +107,7 @@ const Home = () => {
                   fullWidth
                   size="small"
                 >
-                  <Link to={`/bookticket/${value._id}`}>Book Now</Link>
+                  Book Now
                 </Button>
               </CardActions>
             </Card>

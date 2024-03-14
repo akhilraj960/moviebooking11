@@ -17,7 +17,7 @@ const Booking = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/movie/activemovies")
+      .get("http://localhost:5000/api/movie/scheduledmovies")
       .then((response) => {
         console.log(response.data);
         setMovies(response.data);
@@ -50,12 +50,14 @@ const Booking = () => {
           >
             <CardMedia
               sx={{ height: "360px" }}
-              image={`http://localhost:5000/uploads/${value._id}.jpg`}
+              image={`http://localhost:5000/uploads/${value.movie}.jpg`}
               title="green iguana"
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {value.name}
+            <Typography gutterBottom variant="h5" component="div">
+                {value.movieInfo.name}
+              </Typography><Typography gutterBottom variant="h5" component="div">
+                {value.dateandtime}
               </Typography>
             </CardContent>
             <CardActions>

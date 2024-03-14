@@ -15,19 +15,33 @@ import {
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
+  const [tickets, setTickets] = useState([]);
   const { id } = useParams();
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:5000/api/admin/tickets/${id}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setBookings(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching bookings:", error);
+  //     });
+  // }, [id]); // <-- Include 'id' in the dependency array
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/admin/tickets/${id}`)
+      .get(`http://localhost:5000/api/movie/bookedtickets/${id}`)
       .then((response) => {
         console.log(response.data);
-        setBookings(response.data);
+
+        setTickets(response.data[0].seats);
       })
       .catch((error) => {
-        console.error("Error fetching bookings:", error);
+        console.error("Error fetching booked tickets:", error);
       });
-  }, [id]); // <-- Include 'id' in the dependency array
+  }, [id]);
 
   useEffect(() => {
     // Calculate total tickets whenever 'bookings' changes
@@ -49,15 +63,15 @@ const Bookings = () => {
             <TableRow>
               <TableCell>No</TableCell>
               <TableCell>UserId</TableCell>
-              <TableCell>Tickets</TableCell>
+              <TableCell>Tickets Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {bookings.map((value, index) => (
+            {Object.keys(tickets).map((seat,index) => (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{value.user}</TableCell>
-                <TableCell>{value.tickets}</TableCell>
+                <TableCell>{tickets[seat].user}</TableCell>
+                <TableCell>{tickets[seat].status ? <p>Booked</p>:<p>Not Booked</p>}</TableCell>
               </TableRow>
             ))}
           </TableBody>
